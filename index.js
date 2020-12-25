@@ -10,6 +10,9 @@ require('dotenv').config({path:'variables.env'})
 //Create Server
 const app = express();
 
+//carpeta Publica
+app.use(express.static('uploads'))
+
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({extended:true}))
 
@@ -28,7 +31,7 @@ const corsOptions = {
 }
 
 //Cors permite que un cliente se conecte a otro servidor para el intercambio de recursos
-app.use(cors());
+app.use(cors(corsOptions));
 
 //Conecte Mongosse
 const mongoose = require('mongoose');
@@ -39,8 +42,7 @@ mongoose.connect(MONGO_URI, {useNewUrlParser:true, useUnifiedTopology:true, useC
 //Routes main app
 app.use('/', routes())
 
-//carpeta Publica
-app.use(express.static('uploads'))
+
 
 
 const host = process.env.HOST || '0.0.0.0'
